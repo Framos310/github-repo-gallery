@@ -4,6 +4,8 @@ const username = "Framos310"
 const repoList = document.querySelector(".repo-list")
 const repoInfoContainer = document.querySelector(".repos")
 const repoData = document.querySelector(".repo-data")
+const closeButton = document.querySelector(".view-repos")
+const filterInput = document.querySelector(".filter-repos")
 
 
 const getData = async function(){
@@ -40,6 +42,7 @@ const fetchRepos = async function(){
 }
 
 const displayRepoInfo = function(repos){
+    filterInput.classList.remove("hide")
     for(const repo of repos){
         const repoItem = document.createElement("li")
         repoItem.classList.add("repo");
@@ -71,6 +74,8 @@ const specInfo = async function(repoName){
 }
 
 const displayRepo = function(repoInfo, languages){
+    closeButton.classList.remove("hide")
+    filterInput.classList.remove("hide")
     repoData.innerHTML = "";
     repoData.classList.remove("hide");
     repoInfoContainer.classList.add("hide")
@@ -84,3 +89,24 @@ const displayRepo = function(repoInfo, languages){
         repoData.append(div)
         
 }
+
+closeButton.addEventListener("click", function(){
+    repoInfoContainer.classList.remove("hide");
+    repoData.classList.add("hide");
+    closeButton.classList.add("hide")
+})
+
+filterInput.addEventListener("input", function(e){
+    const searchText = e.target.value;
+    console.log(searchText);
+    const repos = document.querySelectorAll(".repo");
+    const searchLowerCase = searchText.toLowerCase();
+    for(let repo of repos){
+        const repoLowerText = repo.innerText.toLowerCase();
+        if(repoLowerText.includes(searchLowerCase)){
+            repo.classList.remove("hide")
+        } else  {
+            repo.classList.add("hide")
+        }
+    }
+})
